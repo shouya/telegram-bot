@@ -30,6 +30,13 @@ module TelegramBot::EventHandler
     end
   end
 
+  def on(type, *args, &block)
+    if self.method("on_#{type}")
+      send("on_#{type}", *args, &block)
+    end
+  end
+
+
   def on_text(pattern, **opts, &block)
     handler = Handler.new(:text, block, **opts)
     handler.pattern = pattern

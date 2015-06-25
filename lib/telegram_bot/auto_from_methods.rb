@@ -3,12 +3,14 @@ class TelegramBot
     module ClassMethods
       def from(id)
         case id
-        when Integer
-          new(id)
-        when Hash
-          parse(id)
+        when self
+          id
         when nil
           nil
+        when Hash
+          parse(id)
+        when Integer
+          new(id)
         when others
           warn "unknown stuff passed in [#{id}]"
         end

@@ -20,6 +20,7 @@ class TelegramBot::Message <
              :new_chat_photo,
              :delete_chat_photo,
              :group_chat_created)
+
   include AutoFromMethods
 
   def self.hash_key_aliases
@@ -51,9 +52,9 @@ class TelegramBot::Message <
   def type
     case
     when text                  then :text
+    when photo                 then :photo
     when audio                 then :audio
     when document              then :document
-    when photo                 then :photo
     when sticker               then :sticker
     when video                 then :video
     when contact               then :contact
@@ -73,5 +74,16 @@ class TelegramBot::Message <
 
   def is_reply?
     !!reply_to_message
+  end
+
+  def extend(obj)
+    obj.instance_variable_set('@message', self)
+    members = self.members
+
+    obj.singleton_class.class_eval do
+      def_delegators :@message, *members
+      def_delegators :@message, :is_forward?, :is_reply?
+    end
+    obj
   end
 end
