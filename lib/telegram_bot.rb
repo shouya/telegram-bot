@@ -4,6 +4,7 @@ require_relative 'telegram_bot/handler'
 require_relative 'telegram_bot/request'
 require_relative 'telegram_bot/request_methods'
 require_relative 'telegram_bot/poll_listener'
+require_relative 'telegram_bot/shorthand_methods'
 
 
 class TelegramBot
@@ -37,6 +38,8 @@ class TelegramBot
       define_method :history do
         telegram_bot.history
       end
+
+      include ShorthandMethods
     end
   end
 
