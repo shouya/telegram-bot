@@ -1,10 +1,6 @@
 # TelegramBotRuby
 
-**This project is not finished yet**
-
-
-utilizing telegram bots api in ruby
-([telegram api doc](https://core.telegram.org/bots/api))
+[telegram api doc](https://core.telegram.org/bots/api)
 
 
 ## Installation
@@ -35,9 +31,10 @@ $ gem install telegram_bot_ruby
 require 'telegram_bot_ruby'
 
 bot = TelegramBot.new(token: <token>)
-bot.listen(method: :webhook, url: '/meow/meow')
+
+bot.listen(method: :webhook, url: '/meow/meow')  # not implemented yet
 # or
-bot.listen(method: :poll, interval: 5)
+bot.listen(method: :poll, interval: 1)
 ```
 
 ### Set up update listeners
@@ -56,12 +53,9 @@ bot.on_text 'ping' do     # plain 'ping'
 end
 
 # with block: false, message will keep passing through other listeners
-bot.on_text /(\d+)\+(\d+)\=\?/, block: false do
+bot.on_text /(\d+)\+(\d+)\=\?/, block: false do |n1, n2|
   send_chat_action :typing
-  send_message ($1.to_i + $2.to_i).to_s
-  forward_message 2333
-  send_chat_action :upload_photo
-  send_photo <IO obj implements read>
+  send_message (n1.to_i + n2.to_i).to_s
 end
 
 # a simple history logger
