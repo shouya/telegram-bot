@@ -1,49 +1,44 @@
 require 'ostruct'
+require 'active_support/inflector'
 
-module TelegramBot::EventHandler
-  class Handler < OpenStruct
-    attr_accessor :type, :action
+require_relative 'matcher'
 
-    def initialize(type, action, pass: false)
-      @type    = type
-      @pass    = pass
-      @action  = action
-    end
+module TelegramBot
+  module EventHandler
+    class Handler < OpenStruct
+      attr_accessor :type, :action, :pass
 
-    def pass?
-      @pass
-    end
+      def initialize(matcher, action, pass)
+        @matcher = matcher
+        @action  = action
+        @pass    = pass
+      end
 
-    def call(env)
-      env.instance_exec(env.message, &action)
-    end
-  end
+      def pass?
+        @pass
+      end
 
-
-  def self.included(clazz)
-    clazz.send :prepend, Class.new do
-      attr_accessor :handlers
-
-      def initialize
-        @handlers = []
+      def call(msg)
+        @matcher.call_block(msg, &@action) if @matcher === msg
       end
     end
-  end
 
-  def on(type, *args, &block)
-    if self.method("on_#{type}")
-      send("on_#{type}", *args, &block)
+
+    def self.included(clazz)
+      clazz.send :prepend, Class.new do
+        attr_accessor :handlers
+
+        def initialize
+          @handlers = []
+        end
+      end
     end
-  end
 
-
-  def on_text(pattern, **opts, &block)
-    handler = Handler.new(:text, block, **opts)
-    handler.pattern = pattern
-    @handlers << handler
-  end
-
-  def on_anything(&block)
-    @handlers << Handler.new(:any, block, **opts)
+    def on(type, *args, pass: false, &block)
+      matcher_class = "#{type}_matcher".classify
+      matcher = matcher_class.new(*args)
+      handler = Handler.new(matcher, block, pass)
+      @handlers << handler
+    end
   end
 end

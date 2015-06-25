@@ -36,8 +36,8 @@ module TelegramBot
       if Regexp === @pattern
         md = @pattern.match(msg.text)
         obj.singleton_class.class_eval do
-          md.names.each do |n|
-            define_method n { md[n] }
+          md.names.each do |grp|
+            define_method grp { md[grp] }
           end
         end
       end
@@ -62,9 +62,13 @@ module TelegramBot
     end
   end
 
-  class FallbackMatcher < Matcher
+  class AnythingMatcher < Matcher
     def ===(_)
       true
     end
   end
+
+  class FallbackMatcher < AnythingMatcher
+  end
+
 end
