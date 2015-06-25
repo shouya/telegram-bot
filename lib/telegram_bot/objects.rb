@@ -1,7 +1,7 @@
 require_relative 'auto_from_methods'
 
-require_relative 'user'
 require_relative 'chat'
+require_relative 'user'
 require_relative 'group_chat'
 require_relative 'message'
 require_relative 'photo_size'
@@ -12,3 +12,4 @@ require_relative 'contact'
 require_relative 'location'
 require_relative 'update'
 require_relative 'date'
+require_relative 'sticker'

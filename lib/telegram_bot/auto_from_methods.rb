@@ -26,7 +26,7 @@ class TelegramBot
 
       def parse(hsh)
         obj = new(*parse_attrs(hsh))
-        parse_extra_types
+        parse_extra_types(obj)
         obj
       end
 
@@ -44,13 +44,15 @@ class TelegramBot
         end
       end
 
-      def parse_extra_types
+      def parse_extra_types(obj)
         extra_types.each do |attr, typ|
           case typ
           when Class
             obj[attr] = typ.from(obj[attr])
           when Array
-            obj[attr] = obj[attr].map { |x| typ[0].from(x) }
+            unless obj[attr].nil?
+              obj[attr] = obj[attr].map { |x| typ[0].from(x) }
+            end
           else
             warn 'unknown type #{type}'
           end

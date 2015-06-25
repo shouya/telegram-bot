@@ -20,9 +20,11 @@ class TelegramBot
     end
 
     def request(method, params)
-      url  = construct_url(method)
-      resp = RestClient.post(url, params)
-      return JONS.parse(resp.body) if resp.code.to_s =~ /^2\d\d$/
+      url    = construct_url(method)
+      resp   = RestClient.post(url, params)
+      json   = JSON.parse(resp.body)
+      result = json['result']
+      return result if resp.code.to_s =~ /^2\d\d$/
       raise Exception.new(resp)
     end
 

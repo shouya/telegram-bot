@@ -46,11 +46,13 @@ class TelegramBot
   end
 
   def start!
+    listener = nil
     case @listen[:method]
     when :poll
-      PollListener.new(self, @listen[:interval])
+      listener = PollListener.new(self, @listen[:interval])
     when :webhook
       warn 'not implemented'
     end
+    listener.start!
   end
 end

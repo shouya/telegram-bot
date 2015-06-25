@@ -1,3 +1,6 @@
+require_relative 'objects'
+require 'forwardable'
+
 class TelegramBot::Message <
       Struct.new(:id,
                  :from,
@@ -31,21 +34,20 @@ class TelegramBot::Message <
 
   def self.extra_types
     {
-      from: User,
-      chat: Chat,
-      forward_from: User,
-      forward_date: Date,
-      reply_to_message: Message,
-      text: String,
-      audio: Audio,
-      document: Document,
-      photo: [PhotoSize],
-      sticker: Sticker,
-      video: Video,
-      contact: Contact,
-      location: Location,
-      new_chat_participant: User,
-      left_chat_participant: User
+      from:                  TelegramBot::User,
+      chat:                  TelegramBot::Chat,
+      forward_from:          TelegramBot::User,
+      forward_date:          TelegramBot::Date,
+      reply_to_message:      TelegramBot::Message,
+      audio:                 TelegramBot::Audio,
+      document:              TelegramBot::Document,
+      photo: [               TelegramBot::PhotoSize],
+      sticker:               TelegramBot::Sticker,
+      video:                 TelegramBot::Video,
+      contact:               TelegramBot::Contact,
+      location:              TelegramBot::Location,
+      new_chat_participant:  TelegramBot::User,
+      left_chat_participant: TelegramBot::User
     }
   end
 
@@ -78,13 +80,14 @@ class TelegramBot::Message <
 
   def extend_env(obj)
     msg = self
-    obj.instace_eval do
+    obj.instance_eval do
       @message = msg
     end
 
     members = self.members
 
     obj.extend do
+      extend Forwardable
       attr_reader :message
       def_delegators :@message, *members
       def_delegators :@message, :is_forward?, :is_reply?

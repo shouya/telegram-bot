@@ -7,7 +7,7 @@ class TelegramBot
         timouet: timeout
       }.reject {|_,v| v.nil?}
 
-      request(:get_update, params).map do |update|
+      request(:get_updates, params).map do |update|
         Update.from(update)
       end
     end
@@ -20,11 +20,13 @@ class TelegramBot
                      disable_web_page_preview: nil,
                      reply_to: nil,
                      reply_markup: nil)
+      reply_to = Chat.from(reply_to)
+      p reply_to
       params = {
         chat_id: Chat.from(chat).id,
         text: text,
         disable_web_page_preview: disable_web_page_preview,
-        reply_to_message_id: Chat.from(reply_to).id
+        reply_to_message_id: reply_to && reply_to.id
         # TODO:
         # reply_markup: reply_markup
       }.reject {|_,v| v.nil?}

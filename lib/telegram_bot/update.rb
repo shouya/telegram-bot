@@ -5,7 +5,7 @@ class TelegramBot::Update < Struct.new(:id, :message)
 
   def self.extra_types
     {
-      message: Message
+      message: TelegramBot::Message
     }
   end
 

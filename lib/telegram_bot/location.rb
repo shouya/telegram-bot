@@ -8,7 +8,7 @@ class TelegramBot::Location < Struct.new(:longitude, :latitude)
     when Integer
       new(hsh, lat)
     else
-      super
+      super(hsh)
     end
   end
 end

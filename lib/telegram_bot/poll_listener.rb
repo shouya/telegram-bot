@@ -19,9 +19,10 @@ class TelegramBot
     end
 
     def get_updates
-      updates = @client.get_updates(@offset_id, 50)
+      updates = @client.get_updates(offset: @offset_id,
+                                    limit: 50)
       updates.each do |update|
-        @offset_id = update.id
+        @offset_id = update.id + 1
         message_received(update.message)
       end
     end

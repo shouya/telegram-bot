@@ -7,7 +7,7 @@ require_relative 'blank_slate'
 class TelegramBot
   module EventHandler
     class Handler
-      attr_accessor :type, :action, :pass
+      attr_accessor :action, :pass, :matcher
 
       def initialize(matcher, action, pass)
         @matcher = matcher
@@ -66,8 +66,8 @@ class TelegramBot
           end
         end
 
-        env.call(handler.arguments(msg),
-                 &handler.action)
+        env.call(*hndlr.arguments(msg),
+                 &hndlr.action)
       end
     end
   end

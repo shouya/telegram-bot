@@ -1,5 +1,7 @@
+require_relative 'objects'
+
 class TelegramBot::Sticker <
-      Struct(:id, :width, :height, :thumb, :file_size)
+      Struct.new(:id, :width, :height, :thumb, :file_size)
 
   include TelegramBot::AutoFromMethods
 

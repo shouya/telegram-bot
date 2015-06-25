@@ -1,5 +1,5 @@
 class TelegramBot
-  class BlankSlate < BasicObject
+  class BlankSlate < Object
     def extend(&block)
       self.singleton_class.class_eval(&block)
     end

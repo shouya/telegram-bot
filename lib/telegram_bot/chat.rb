@@ -1,22 +1,24 @@
-require_relative 'auto_from_methods'
+require_relative 'objects'
 
-class Chat < Struct.new(:id)
+class TelegramBot::Chat < Struct.new(:id)
+  include TelegramBot::AutoFromMethods
+
   def self.from(id)
     case id
     when Integer
-      Chat.new(id)
-    when GroupChat, User
+      TelegramBot::Chat.new(id)
+    when TelegramBot::GroupChat, TelegramBot::User
       id
     when Hash
       if id.has_key? 'title'
-        GroupChat.from(id)
+        TelegramBot::GroupChat.from(id)
       elsif id.has_key? 'first_name'
-        User.from(id)
+        TelegramBot::User.from(id)
       else
-        Chat.from(id['id'])
+        TelegramBot::Chat.from(id['id'])
       end
     else
-      warn 'unknown chat'
+      super
     end
   end
 end
