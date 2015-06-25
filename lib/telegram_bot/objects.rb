@@ -1,4 +1,7 @@
+require_relative 'auto_from_methods'
+
 require_relative 'user'
+require_relative 'chat'
 require_relative 'group_chat'
 require_relative 'message'
 require_relative 'photo_size'

@@ -1,6 +1,6 @@
 module TelegramBot
   module RequestMethods
-    def get_update(offset: nil, limit: nil, timeout: nil)
+    def get_updates(offset: nil, limit: nil, timeout: nil)
       params = {
         offset:  offset,
         limit:   limit,

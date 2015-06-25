@@ -2,10 +2,11 @@ require 'ostruct'
 require 'active_support/inflector'
 
 require_relative 'matcher'
+require_relative 'blank_slate'
 
 module TelegramBot
   module EventHandler
-    class Handler < OpenStruct
+    class Handler
       attr_accessor :type, :action, :pass
 
       def initialize(matcher, action, pass)
@@ -18,8 +19,12 @@ module TelegramBot
         @pass
       end
 
-      def call(msg)
-        @matcher.call_block(msg, &@action) if @matcher === msg
+      def ===(msg)
+        @matcher === msg
+      end
+
+      def arguments(msg)
+        @matcher.arguments(msg)
       end
     end
 
@@ -28,17 +33,40 @@ module TelegramBot
       clazz.send :prepend, Class.new do
         attr_accessor :handlers
 
-        def initialize
+        def initialize(*args, &block)
           @handlers = []
+          super(*args, &block)
         end
       end
     end
+
 
     def on(type, *args, pass: false, &block)
       matcher_class = "#{type}_matcher".classify
       matcher = matcher_class.new(*args)
       handler = Handler.new(matcher, block, pass)
       @handlers << handler
+    end
+
+    def handle(msg)
+      env = BlankSlate.new
+      self.extend_env(env)
+      msg.extend_env(env)
+
+      @handlers.each do |hndlr|
+        next unless hndlr === msg
+
+        hndlr.matcher.extend_env(env, msg)
+
+        env.extend do
+          define_method :handler do
+            hndlr
+          end
+        end
+
+        env.call(handler.arguments(msg),
+                 &handler.action)
+      end
     end
   end
 end

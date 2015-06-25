@@ -12,8 +12,8 @@ module TelegramBot
       []
     end
 
-    def call_block(msg, blk)
-      env.instance_exec(*arguments(msg), &blk)
+    def extend_env(obj, msg)
+      obj
     end
   end
 
@@ -30,14 +30,15 @@ module TelegramBot
       @pattern === msg.text
     end
 
-    def env(msg)
+    def extend_env(obj, msg)
       obj = super
 
       if Regexp === @pattern
         md = @pattern.match(msg.text)
-        obj.singleton_class.class_eval do
+        obj.extend do
           md.names.each do |grp|
-            define_method grp { md[grp] }
+            value = md[grp]
+            define_method grp { value }
           end
         end
       end

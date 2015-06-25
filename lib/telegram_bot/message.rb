@@ -76,14 +76,20 @@ class TelegramBot::Message <
     !!reply_to_message
   end
 
-  def extend(obj)
-    obj.instance_variable_set('@message', self)
+  def extend_env(obj)
+    msg = self
+    obj.instace_eval do
+      @message = msg
+    end
+
     members = self.members
 
-    obj.singleton_class.class_eval do
+    obj.extend do
+      attr_reader :message
       def_delegators :@message, *members
       def_delegators :@message, :is_forward?, :is_reply?
     end
+
     obj
   end
 end
