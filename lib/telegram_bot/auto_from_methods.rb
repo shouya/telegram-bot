@@ -3,7 +3,7 @@ class TelegramBot
     module ClassMethods
       def from(id)
         case id
-        when self
+        when self, Struct
           id
         when nil
           nil
@@ -11,7 +11,7 @@ class TelegramBot
           parse(id)
         when Integer
           new(id)
-        when others
+        else
           warn "unknown stuff passed in [#{id}]"
         end
       end

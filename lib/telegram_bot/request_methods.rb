@@ -20,8 +20,7 @@ class TelegramBot
                      disable_web_page_preview: nil,
                      reply_to: nil,
                      reply_markup: nil)
-      reply_to = Chat.from(reply_to)
-      p reply_to
+      reply_to = Message.from(reply_to)
       params = {
         chat_id: Chat.from(chat).id,
         text: text,

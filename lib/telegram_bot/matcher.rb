@@ -45,6 +45,15 @@ class TelegramBot
 
       obj
     end
+
+    def arguments(msg)
+      if Regexp === @pattern
+        md = @pattern.match(msg.text)
+        md.to_a
+      else
+        [msg.text]
+      end
+    end
   end
 
   class CommandMatcher < Matcher

@@ -3,8 +3,8 @@ module TelegramBot::ShorthandMethods
     bot.send_message(to, text, *args)
   end
 
-  def reply(*args)
-    send_message(*args, reply_to: message)
+  def reply(text, *args, to: message.chat)
+    bot.send_message(to, text, *args, reply_to: message)
   end
 
   def forward_message(to)
@@ -12,6 +12,6 @@ module TelegramBot::ShorthandMethods
   end
 
   def send_chat_action(action)
-    bot.send_chat_action(message.chat)
+    bot.send_chat_action(message.chat, action)
   end
 end
