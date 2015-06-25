@@ -28,7 +28,7 @@ $ gem install telegram_bot_ruby
 ### Set up client
 
 ```ruby
-require 'telegram_bot_ruby'
+require 'telegram_bot'
 
 bot = TelegramBot.new(token: <token>)
 
