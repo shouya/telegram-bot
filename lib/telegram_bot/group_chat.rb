@@ -1,3 +1,5 @@
+require_relative 'objects'
+
 class GroupChat < Struct.new(:id, :title)
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 end

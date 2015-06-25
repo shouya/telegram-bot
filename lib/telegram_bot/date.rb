@@ -1,8 +1,15 @@
-require 'datetime'
+require_relative 'objects'
 require 'time'
 
-class TelegramBot::Date < Struct.new()
-  include AutoFromMethods
+class TelegramBot::Date
+  include TelegramBot::AutoFromMethods
+
+  def self.members
+    []
+  end
+  def members
+    self.class.members
+  end
 
   def self.from(date)
     case date

@@ -1,6 +1,8 @@
+require_relative 'objects'
+
 class TelegramBot::Document <
       Struct.new(:id, :thumb, :file_name, :meme_type, :file_size)
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 
   def self.hash_key_aliases
     {

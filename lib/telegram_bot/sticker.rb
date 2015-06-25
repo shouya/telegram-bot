@@ -1,7 +1,7 @@
 class TelegramBot::Sticker <
       Struct(:id, :width, :height, :thumb, :file_size)
 
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 
   def self.hash_key_aliases
     {

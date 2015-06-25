@@ -4,7 +4,7 @@ require 'active_support/inflector'
 require_relative 'matcher'
 require_relative 'blank_slate'
 
-module TelegramBot
+class TelegramBot
   module EventHandler
     class Handler
       attr_accessor :type, :action, :pass
@@ -28,21 +28,23 @@ module TelegramBot
       end
     end
 
+    module PrependMethods
+      attr_accessor :handlers
+
+      def initialize(*args, &block)
+        @handlers = []
+        super(*args, &block)
+      end
+    end
 
     def self.included(clazz)
-      clazz.send :prepend, Class.new do
-        attr_accessor :handlers
-
-        def initialize(*args, &block)
-          @handlers = []
-          super(*args, &block)
-        end
-      end
+      clazz.prepend PrependMethods
     end
 
 
     def on(type, *args, pass: false, &block)
-      matcher_class = "#{type}_matcher".classify
+      matcher_class_name = "telegram_bot/#{type}_matcher".classify
+      matcher_class = matcher_class_name.constantize
       matcher = matcher_class.new(*args)
       handler = Handler.new(matcher, block, pass)
       @handlers << handler

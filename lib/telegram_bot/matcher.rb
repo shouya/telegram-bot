@@ -1,4 +1,4 @@
-module TelegramBot
+class TelegramBot
   class Matcher
     def env(msg)
       msg.extend(BasicObject.new)

@@ -1,4 +1,4 @@
-module TelegramBot
+class TelegramBot
   class PollListener
     def initialize(client, interval)
       @client    = client

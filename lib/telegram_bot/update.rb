@@ -1,5 +1,7 @@
-class TelegramBot::Update < Strict(:id, :message)
-  include AutoFromMethods
+require_relative 'objects'
+
+class TelegramBot::Update < Struct.new(:id, :message)
+  include TelegramBot::AutoFromMethods
 
   def self.extra_types
     {

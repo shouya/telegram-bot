@@ -1,6 +1,8 @@
+require_relative 'objects'
+
 class TelegramBot::PhotoSize <
       Struct.new(:id, :width, :height, :file_size)
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 
   def hash_key_aliases
     {

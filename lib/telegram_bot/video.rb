@@ -1,3 +1,5 @@
+require_relative 'objects'
+
 class TelegramBot::Video <
       Struct.new(:id,
                  :width,
@@ -8,7 +10,7 @@ class TelegramBot::Video <
                  :file_size,
                  :caption)
 
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 
   def self.hash_key_aliases
     {

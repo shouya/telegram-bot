@@ -1,5 +1,5 @@
 class TelegramBot::ReplyKeyboardHide <
       Struct.new(:hide_keyboard,
                  :selective)
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 end

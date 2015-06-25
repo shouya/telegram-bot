@@ -1,3 +1,5 @@
+require_relative 'auto_from_methods'
+
 class Chat < Struct.new(:id)
   def self.from(id)
     case id

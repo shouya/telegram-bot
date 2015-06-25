@@ -3,5 +3,5 @@ class TelegramBot::ReplyKeyboardMarkup <
                  :resize_keyboard,
                  :one_time_keyboard,
                  :selective)
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 end

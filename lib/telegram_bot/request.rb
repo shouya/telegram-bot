@@ -2,9 +2,9 @@ require 'rest-client'
 require 'json'
 require 'active_support/inflector'
 
-module TelegramBot
+class TelegramBot
   module Request
-    class PrependMethods
+    module PrependMethods
       attr_accessor :token
 
       def initialize(*args, token:, &block)

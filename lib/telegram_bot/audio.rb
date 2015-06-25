@@ -1,6 +1,8 @@
+require_relative 'objects'
+
 class TelegramBot::Audio <
       Struct.new(:id, :duration, :mime_type, :file_size)
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 
   def self.hash_key_aliases
     {

@@ -1,20 +1,19 @@
-require 'telegram_bot/version'
-require 'telegram_bot/objects'
-require 'telegram_bot/handler'
-require 'telegram_bot/request'
-require 'telegram_bot/request_methods'
-require 'telegram_bot/poll_listener'
+require_relative 'telegram_bot/version'
+require_relative 'telegram_bot/objects'
+require_relative 'telegram_bot/handler'
+require_relative 'telegram_bot/request'
+require_relative 'telegram_bot/request_methods'
+require_relative 'telegram_bot/poll_listener'
+
 
 class TelegramBot
   include TelegramBot::EventHandler
   include TelegramBot::Request
   include TelegramBot::RequestMethods
 
-  attr_accessor :token, :handlers, :history
+  attr_accessor :history
 
-  def initialize(history: 50, token:)
-    @token = token
-    @handlers = []
+  def initialize(history: 50)
     @history = []
     @history_length = 50
   end

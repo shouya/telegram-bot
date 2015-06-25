@@ -1,4 +1,4 @@
-module TelegramBot
+class TelegramBot
   module RequestMethods
     def get_updates(offset: nil, limit: nil, timeout: nil)
       params = {
@@ -87,6 +87,15 @@ module TelegramBot
       :set_webhook
     ]
 
+    private
+
+    def todo(*args, &block)
+      defn_at = self.method(__callee__).source_location
+      warn "#{defn_at[0]}:<#{__callee__}>: not implemented"
+    end
+
+    public
+
     METHODS.each do |method|
       is_defined = self.instance_methods(false).include?(method)
       unless is_defined
@@ -96,12 +105,5 @@ module TelegramBot
       alias_method "#{method}_raw", method
     end
 
-
-    private
-
-    def todo(*args, &block)
-      defn_at = self.method(__callee__).source_location
-      warn "#{defn_at[0]}:<#{__callee__}>: not implemented"
-    end
   end
 end

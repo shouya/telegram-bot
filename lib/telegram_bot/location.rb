@@ -1,5 +1,7 @@
-class TelegramBot::Location < Field.new(:longitude, :latitude)
-  include AutoFromMethods
+require_relative 'objects'
+
+class TelegramBot::Location < Struct.new(:longitude, :latitude)
+  include TelegramBot::AutoFromMethods
 
   def self.from(hsh, lat = nil)
     case hsh

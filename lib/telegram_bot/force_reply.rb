@@ -1,5 +1,7 @@
+require_relative 'objects'
+
 class TelegramBot::ForceReply <
       Struct.new(:force_reply,
                  :selective)
-  include AutoFromMethods
+  include TelegramBot::AutoFromMethods
 end
