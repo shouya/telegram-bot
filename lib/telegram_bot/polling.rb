@@ -1,0 +1,2 @@
+module TelegramBot::Polling
+end

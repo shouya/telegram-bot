@@ -1,0 +1,2 @@
+class TelegramBot::Update
+end

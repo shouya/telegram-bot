@@ -1,7 +1,10 @@
-class PhotoSize < Struct.new(:id, :width, :height)
-  attr_accessor :file_size
+class TelegramBot::PhotoSize <
+      Struct.new(:id, :width, :height, :file_size)
+  include AutoFromMethods
 
-  def initialize(*args, file_size: nil)
-    @file_size = file_size
+  def hash_key_aliases
+    {
+      :id => :file_id
+    }
   end
 end
