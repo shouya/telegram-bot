@@ -5,7 +5,7 @@ require 'telegram_bot/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "telegram_bot_ruby"
-  spec.version       = TelegramBotRuby::VERSION
+  spec.version       = TelegramBot::VERSION
   spec.authors       = ["Shou Ya"]
   spec.email         = ["shouyatf@gmail.com"]
 
@@ -20,6 +20,9 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+
+  spec.add_dependency 'rest-client'
+  spec.add_dependency 'active_support'
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
