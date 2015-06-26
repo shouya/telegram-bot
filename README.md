@@ -40,26 +40,26 @@ bot.listen(method: :poll, interval: 1)
 ### Set up update listeners
 
 ```ruby
-bot.on_command 'ping' do  # /ping
+bot.on :command 'ping' do  # /ping
   reply 'pong'
 end
 
-bot.on_command 'plus' do |num1, num2|  # /plus 1 2
+bot.on :command 'plus' do |num1, num2|  # /plus 1 2
   reply (num1.to_i + num2.to_i).to_s
 end
 
-bot.on_text 'ping' do     # plain 'ping'
+bot.on :text 'ping' do     # plain 'ping'
   send_message 'pong'
 end
 
 # with block: false, message will keep passing through other listeners
-bot.on_text /(\d+)\+(\d+)\=\?/, block: false do |n1, n2|
+bot.on :text /(\d+)\+(\d+)\=\?/, block: false do |n1, n2|
   send_chat_action :typing
   send_message (n1.to_i + n2.to_i).to_s
 end
 
 # a simple history logger
-bot.anything do |msg|
+bot.on :anything do |msg|
   Database.save [msg.from.username, msg.text] if !msg.text.empty?
 end
 ```
