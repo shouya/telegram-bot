@@ -28,19 +28,7 @@ class TelegramBot
   end
 
   def extend_env(env)
-    telegram_bot = self
-    env.extend do
-      define_method :bot do
-        telegram_bot
-      end
-      alias_method :client, :bot
 
-      define_method :history do
-        telegram_bot.history
-      end
-
-      include ShorthandMethods
-    end
   end
 
   def append_history(message)

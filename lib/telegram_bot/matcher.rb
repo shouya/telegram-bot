@@ -1,19 +1,11 @@
 class TelegramBot
   class Matcher
-    def env(msg)
-      msg.extend(BasicObject.new)
-    end
-
     def ===(_)
       false
     end
 
     def arguments(msg)
       []
-    end
-
-    def extend_env(obj, msg)
-      obj
     end
   end
 
@@ -28,22 +20,6 @@ class TelegramBot
       return false unless msg.type == :text
       return true  if @pattern.nil?
       @pattern === msg.text
-    end
-
-    def extend_env(obj, msg)
-      obj = super
-
-      if Regexp === @pattern
-        md = @pattern.match(msg.text)
-        obj.extend do
-          md.names.each do |grp|
-            value = md[grp]
-            define_method grp { value }
-          end
-        end
-      end
-
-      obj
     end
 
     def arguments(msg)

@@ -2,7 +2,7 @@ require 'ostruct'
 require 'active_support/inflector'
 
 require_relative 'matcher'
-require_relative 'blank_slate'
+require_relative 'message_proxy'
 
 class TelegramBot
   module EventHandler
@@ -51,23 +51,15 @@ class TelegramBot
     end
 
     def handle(msg)
-      env = BlankSlate.new
-      self.extend_env(env)
-      msg.extend_env(env)
+      proxy = MessageProxy.new(self, msg, handler)
 
       @handlers.each do |hndlr|
         next unless hndlr === msg
 
-        hndlr.matcher.extend_env(env, msg)
+        proxy.instance_exec(*hndlr.arguments(msg),
+                            &hndlr.action)
 
-        env.extend do
-          define_method :handler do
-            hndlr
-          end
-        end
-
-        env.call(*hndlr.arguments(msg),
-                 &hndlr.action)
+        break unless hndlr.pass?
       end
     end
   end

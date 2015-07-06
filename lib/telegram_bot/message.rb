@@ -77,22 +77,4 @@ class TelegramBot::Message <
   def is_reply?
     !!reply_to_message
   end
-
-  def extend_env(obj)
-    msg = self
-    obj.instance_eval do
-      @message = msg
-    end
-
-    members = self.members
-
-    obj.extend do
-      extend Forwardable
-      attr_reader :message
-      def_delegators :@message, *members
-      def_delegators :@message, :is_forward?, :is_reply?
-    end
-
-    obj
-  end
 end
