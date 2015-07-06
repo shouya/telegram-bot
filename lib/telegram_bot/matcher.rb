@@ -35,16 +35,34 @@ class TelegramBot
   class CommandMatcher < Matcher
     attr_accessor :command
 
-    def initialize(command)
+    def initialize(command = nil, no_split: false)
       @command = command
+      @no_split = no_split
     end
 
     def ===(msg)
-      msg.type == :text and msg.text.start_with?("/#{@command}")
+      start_with = '/'
+      if !@command.nil?
+        start_with += @command.to_s
+      end
+      return false if msg.type != :text
+      return false if !msg.text.start_with? start_with
+
+      true
     end
 
     def arguments(msg)
-      msg.text.split[1..-1]
+      case
+      when @no_split
+        cmd, _, args = msg.text.parition(/\s/)
+        [cmd, args]
+      when @comamnd.nil?
+        cmd, *args = msg.text.split
+        [cmd, *args]
+      else
+        cmd, *args = msg.text.split
+        args
+      end
     end
   end
 
