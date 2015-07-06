@@ -1,6 +1,7 @@
 require 'forwardable'
+require_relative 'shorthand_methods'
 
-module TelegramBot
+class TelegramBot
   class MessageProxy
     extend Forwardable
 
@@ -12,6 +13,6 @@ module TelegramBot
       @matcher = matcher
     end
 
-    include ShorthandMethods
+    include TelegramBot::ShorthandMethods
   end
 end

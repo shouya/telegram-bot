@@ -51,11 +51,10 @@ class TelegramBot
     end
 
     def handle(msg)
-      proxy = MessageProxy.new(self, msg, handler)
-
       @handlers.each do |hndlr|
         next unless hndlr === msg
 
+        proxy = MessageProxy.new(self, msg, hndlr)
         proxy.instance_exec(*hndlr.arguments(msg),
                             &hndlr.action)
 
