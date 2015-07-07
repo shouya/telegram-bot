@@ -17,14 +17,16 @@ class TelegramBot
   def initialize(history: 50)
     @history = []
     @history_length = 50
+    @listener = nil
   end
 
   def listen(method: :poll, interval: 5, path: '/hook')
-    @listen = {
-      method:   method,
-      interval: interval,
-      path:     path
-    }
+    case method
+    when :poll
+      @listener = PollListener.new(self, interval)
+    when :webhook
+      warn 'not implemented'
+    end
   end
 
   def append_history(message)
@@ -33,13 +35,10 @@ class TelegramBot
   end
 
   def start!
-    listener = nil
-    case @listen[:method]
-    when :poll
-      listener = PollListener.new(self, @listen[:interval])
-    when :webhook
-      warn 'not implemented'
-    end
-    listener.start!
+    @listener.start!
+  end
+
+  def stop!
+    @listener.stop!
   end
 end
