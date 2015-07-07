@@ -27,10 +27,6 @@ class TelegramBot
     }
   end
 
-  def extend_env(env)
-
-  end
-
   def append_history(message)
     @history << message
     @history = @history.last(@history_length || 0)

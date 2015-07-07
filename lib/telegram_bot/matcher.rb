@@ -55,10 +55,10 @@ class TelegramBot
       case
       when @no_split
         cmd, _, args = msg.text.parition(/\s/)
-        [cmd, args]
+        [cmd[1..-1], args]
       when @comamnd.nil?
         cmd, *args = msg.text.split
-        [cmd, *args]
+        [cmd[1..-1], *args]
       else
         cmd, *args = msg.text.split
         args
