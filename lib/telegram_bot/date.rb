@@ -7,9 +7,6 @@ class TelegramBot::Date
   def self.members
     []
   end
-  def members
-    self.class.members
-  end
 
   def self.from(date)
     case date
@@ -29,8 +26,12 @@ class TelegramBot::Date
 
   attr_accessor :datetime
 
+  def members
+    self.class.members
+  end
+
   def initialize(datetime)
-    @self.datetime = datetime
+    @datetime = datetime
   end
 
   def method_missing(sym, *args, &blk)
