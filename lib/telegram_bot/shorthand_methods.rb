@@ -1,10 +1,10 @@
 module TelegramBot::ShorthandMethods
-  def send_message(text, *args, to: message.chat)
-    bot.send_message(to, text, *args)
+  def send_message(text, *args, to: message.chat, **opts)
+    bot.send_message(to, text, *args, **opts)
   end
 
-  def reply(text, *args, to: message.chat)
-    bot.send_message(to, text, *args, reply_to: message)
+  def reply(text, *args, to: message.chat, **opts)
+    bot.send_message(to, text, *args, reply_to: message, **opts)
   end
 
   def forward_message(to)

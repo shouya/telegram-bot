@@ -25,10 +25,11 @@ class TelegramBot
         chat_id: Chat.from(chat).id,
         text: text,
         disable_web_page_preview: disable_web_page_preview,
-        reply_to_message_id: reply_to && reply_to.id
-        # TODO:
-        # reply_markup: reply_markup
+        reply_to_message_id: reply_to && reply_to.id,
+        reply_markup: reply_markup ? reply_markup.to_json : nil
       }.reject {|_,v| v.nil?}
+
+      puts params.to_json
 
       Message.from(request(:send_message, params))
     end
