@@ -13,7 +13,7 @@ class TelegramBot::Sticker <
 
   def self.extra_types
     {
-      thumb: PhotoSize
+      thumb: TelegramBot::PhotoSize
     }
   end
 end

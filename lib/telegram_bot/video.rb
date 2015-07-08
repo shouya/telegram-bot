@@ -20,7 +20,7 @@ class TelegramBot::Video <
 
   def self.extra_types
     {
-      thumb: PhotoSize
+      thumb: TelegramBot::PhotoSize
     }
   end
 
