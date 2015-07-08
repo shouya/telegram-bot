@@ -29,8 +29,6 @@ class TelegramBot
         reply_markup: reply_markup ? reply_markup.to_json : nil
       }.reject {|_,v| v.nil?}
 
-      puts params.to_json
-
       Message.from(request(:send_message, params))
     end
 
