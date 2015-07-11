@@ -81,8 +81,10 @@ bot.start!
 **anything/fallback matcher**
 
 ```ruby
-on :anything
-on :fallback
+on :anything do
+end
+on :fallback do
+end
 ```
 
 **text matcher**
@@ -90,6 +92,7 @@ on :fallback
 ```ruby
 # match when message.type == :text
 on :text do |txt|
+    send_message txt  # a simplest echo bot
 end
 
 # arguments are given by `MatchData#to_a`
@@ -131,7 +134,7 @@ http://www.rubydoc.info/gems/telegram_bot_ruby/TelegramBot/AutoFromMethods
 
 ### Bot methods
 
-```
+```ruby
 # msg: message object, or message id
 # to: chat/user object or chat/user id
 TelegramBot#forward_message(msg, to, from = nil)
@@ -178,8 +181,8 @@ markup = {
 
 ### Shorthand methods
 
-shorthand methods can be used within the handler block, with the
-received message as context. [rubydoc.info](http://www.rubydoc.info/gems/telegram_bot_ruby/TelegramBot/ShorthandMethods)
+Shorthand methods can be used within a handler block, with the
+received message as its context. [rubydoc.info](http://www.rubydoc.info/gems/telegram_bot_ruby/TelegramBot/ShorthandMethods)
 
 ```ruby
 reply(text, *args)
@@ -193,7 +196,7 @@ send_chat_action(action, *args)
 Other than the shorthand above, within the handler block, these
 contextual variable are accessible:
 
-```
+```ruby
 bot            # the current TelegramBot instance
 bot.history    # request histories :: [Message]
 bot.start!     # start polling
