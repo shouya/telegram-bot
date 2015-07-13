@@ -49,13 +49,13 @@ bot.on :command, 'plus' do |num1, num2|  # /plus 1 2
 end
 
 bot.on :text 'ping' do     # plain 'ping'
-  send_message 'pong'
+  say 'pong'
 end
 
 # with block: false, message will keep passing through other listeners
 bot.on :text, /(\d+)\+(\d+)\=\?/, block: false do |n1, n2|
   send_chat_action :typing
-  send_message (n1.to_i + n2.to_i).to_s
+  say (n1.to_i + n2.to_i).to_s
 end
 
 # a simple history logger
@@ -92,12 +92,12 @@ end
 ```ruby
 # match when message.type == :text
 on :text do |txt|
-    send_message txt  # a simplest echo bot
+    say txt  # a simplest echo bot
 end
 
 # arguments are given by `MatchData#to_a`
 on :text, /reply me with (.*)/ do |matched_text, reply_txt|
-    send_message reply_txt
+    say reply_txt
 end
 ```
 
@@ -161,11 +161,11 @@ TelegramBot#send_chat_action(chat, action)
 # disable_web_page_preview: see Telegram doc
 # reply_to: message object or id
 # reply_markup: a keyboard markup, see example below
-send_message(chat,
-             text,
-             disable_web_page_preview: nil,
-             reply_to: nil,
-             reply_markup: nil)
+TelegramBot#send_message(chat,
+                         text,
+                         disable_web_page_preview: nil,
+                         reply_to: nil,
+                         reply_markup: nil)
 
 
 # example keyboard markup
@@ -186,8 +186,8 @@ received message as its context. [rubydoc.info](http://www.rubydoc.info/gems/tel
 
 ```ruby
 reply(text, *args)
-send_message(text, *args)
-forward_message(to, *args)
+say(text, *args)
+forward_to(to, *args)
 send_chat_action(action, *args)
 ```
 
